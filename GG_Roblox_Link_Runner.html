@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#171720"><title>GG Roblox Link Runner</title>
+<style>
+:root{color-scheme:dark;--bg:#101016;--panel:#1b1b26;--panel2:#242433;--line:#353548;--text:#f4f2ff;--muted:#aaa8bf;--purple:#9c7cff;--green:#6de2ad;--red:#ff8293}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#29203f 0,#101016 46%);color:var(--text);font:15px system-ui,-apple-system,BlinkMacSystemFont,sans-serif;min-height:100vh}.app{max-width:760px;margin:auto;padding:18px 14px 32px}.top{display:flex;align-items:center;gap:12px;padding:8px 2px 18px}.logo{width:48px;height:48px;border-radius:15px;background:linear-gradient(135deg,#b59bff,#7047d9);display:grid;place-items:center;font-weight:900;font-size:20px;color:#171321;box-shadow:0 8px 28px #8a62ff33}.title{font-weight:850;font-size:20px;letter-spacing:.3px}.sub{font-size:12px;color:var(--muted);margin-top:2px}.pill{margin-left:auto;border:1px solid #4d416d;border-radius:99px;padding:5px 9px;color:#d2c4ff;font-size:11px;white-space:nowrap}.card{background:#1a1a25ed;border:1px solid var(--line);border-radius:18px;padding:15px;margin-bottom:13px;box-shadow:0 12px 35px #0002}.row{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.row.between{justify-content:space-between}.label{font-weight:750;font-size:13px;letter-spacing:.35px}.hint{font-size:12px;color:var(--muted);line-height:1.5}.status{font-size:12px;color:var(--green)}textarea{width:100%;resize:vertical;min-height:220px;background:#0f0f16;color:#e9e5ff;border:1px solid #36364b;border-radius:12px;padding:13px;font:13px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;outline:none;margin-top:10px}textarea:focus{border-color:var(--purple)}button{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:11px;padding:11px 13px;font-weight:750;font-size:13px;cursor:pointer}button.primary{background:var(--purple);border-color:var(--purple);color:#171321}button.green{background:#214f3b;border-color:#327958;color:#c9ffe4}button:active{transform:scale(.98)}.console{white-space:pre-wrap;overflow-wrap:anywhere;background:#0d0d13;border:1px solid #303041;border-radius:12px;padding:12px;min-height:62px;color:#c9ffd9;font:12px/1.6 ui-monospace,monospace;margin-top:10px}.console.error{color:#ff9aaa}.tabs{display:flex;gap:7px;margin:0 0 12px}.tab{flex:1}.tab.active{background:#382a57;border-color:#7b61b9;color:#e8ddff}.hidden{display:none!important}.codebox{position:relative}.codebox textarea{min-height:255px}.note{border-left:3px solid var(--purple);padding:10px 12px;background:#262137;border-radius:0 10px 10px 0;color:#d8d0f1;font-size:12px;line-height:1.55}.foot{text-align:center;color:#817f96;font-size:11px;padding:10px}.smallbtn{padding:8px 10px}.section-title{font-size:15px;font-weight:800;margin-bottom:7px}.actiongrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.actiongrid button{width:100%}@media(max-width:420px){.app{padding:12px 10px 24px}.card{padding:12px}.pill{font-size:10px}.actiongrid{grid-template-columns:1fr 1fr}}
+</style></head>
+<body><main class="app">
+<header class="top"><div class="logo">GG</div><div><div class="title">ROBLOX LINK RUNNER</div><div class="sub">Luau workspace · iPad-friendly</div></div><div class="pill">BETA</div></header>
+<div class="note" style="margin-bottom:13px"><b>Quick truth:</b> this app can edit, save, copy scripts, and run standard Lua locally. It cannot inject code into the regular Roblox app. The Roblox tab provides a safe starter bridge for a Roblox experience you own.</div>
+<div class="tabs"><button class="tab active" id="tabEditor" onclick="showTab('editor')">⌘ Editor</button><button class="tab" id="tabBridge" onclick="showTab('bridge')">↔ Roblox setup</button></div>
+<section id="editorView">
+<div class="card"><div class="row between"><div><div class="label">SCRIPT EDITOR</div><div class="hint">Write or paste Lua / Luau</div></div><span class="status" id="saveStatus">● Ready</span></div>
+<textarea id="source" spellcheck="false" autocapitalize="off" autocomplete="off">print("GG Runner is ready!")
+
+local greeting = "Hello from GG"
+print(greeting)</textarea>
+<div class="row" style="margin-top:10px"><button class="primary" id="runBtn">▶ Run Lua</button><button id="copyBtn">Copy code</button><button id="saveBtn">Save file</button><button id="clearBtn">Clear</button></div>
+<div class="hint" style="margin-top:9px">Local Lua runtime is loaded from a CDN, so Run needs an internet connection the first time.</div></div>
+<div class="card"><div class="row between"><div class="label">OUTPUT CONSOLE</div><button class="smallbtn" id="clearOutput">Clear output</button></div><div class="console" id="output">Ready. Tap Run Lua to execute standard Lua in this editor.</div></div>
+</section>
+<section id="bridgeView" class="hidden">
+<div class="card"><div class="section-title">Connect to your own Roblox experience</div><p class="hint">Roblox does not let an external iPad webpage execute arbitrary code inside a live game. For your own experience, add a RemoteEvent and server script that accepts only specific actions you choose to support.</p><div class="row"><button class="primary" id="copyClient">Copy client starter</button><button id="copyServer">Copy server starter</button></div><div class="hint" style="margin-top:10px">These are starter templates for Roblox Studio, not a live connection from this webpage. Review and adapt them in your own place.</div></div>
+<div class="card"><div class="label">CLIENT STARTER · LocalScript</div><textarea id="clientCode" readonly spellcheck="false">-- Place in a LocalScript in your own experience.
+-- Example: trigger a predefined action, not arbitrary pasted code.
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local event = ReplicatedStorage:WaitForChild("GGRunnerAction")
+
+event:FireServer("Ping")</textarea></div>
+<div class="card"><div class="label">SERVER STARTER · Script</div><textarea id="serverCode" readonly spellcheck="false">-- Place in ServerScriptService in your own experience.
+-- Create a RemoteEvent named GGRunnerAction in ReplicatedStorage.
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local event = ReplicatedStorage:WaitForChild("GGRunnerAction")
+
+event.OnServerEvent:Connect(function(player, action)
+    if action == "Ping" then
+        print("GG Runner ping from", player.Name)
+    end
+    -- Add only specific, validated actions you intend to support.
+end)</textarea></div>
+<div class="note">For safety, don't make the server compile or execute arbitrary strings received from clients. This page does not send actions into the Roblox app by itself.</div>
+</section>
+<div class="foot">GG Runner · Separate web app · Not affiliated with Roblox</div>
+</main>
+<script>
+const source=document.getElementById('source'), output=document.getElementById('output'), saveStatus=document.getElementById('saveStatus');
+function showTab(which){const editor=which==='editor';document.getElementById('editorView').classList.toggle('hidden',!editor);document.getElementById('bridgeView').classList.toggle('hidden',editor);document.getElementById('tabEditor').classList.toggle('active',editor);document.getElementById('tabBridge').classList.toggle('active',!editor)}
+function logLine(text,isError=false){if(output.textContent==='Ready. Tap Run Lua to execute standard Lua in this editor.')output.textContent='';output.classList.toggle('error',isError);output.textContent+=(output.textContent?'\n':'')+String(text)}
+source.addEventListener('input',()=>{saveStatus.textContent='● Edited';saveStatus.style.color='#d8c5ff'});
+document.getElementById('copyBtn').onclick=async()=>{try{await navigator.clipboard.writeText(source.value);saveStatus.textContent='● Copied';}catch(e){source.focus();source.select();saveStatus.textContent='● Select and copy';}};
+document.getElementById('saveBtn').onclick=()=>{const blob=new Blob([source.value],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='GG_Script.lua';a.click();URL.revokeObjectURL(a.href);saveStatus.textContent='● Downloaded';};
+document.getElementById('clearBtn').onclick=()=>{source.value='';saveStatus.textContent='● Cleared'};
+document.getElementById('clearOutput').onclick=()=>{output.textContent='Console cleared.';output.classList.remove('error')};
+let fengariPromise;
+function loadLua(){if(fengariPromise)return fengariPromise;fengariPromise=new Promise((resolve,reject)=>{if(window.fengari){resolve(window.fengari);return}const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/fengari-web@0.1.4/dist/fengari-web.js';s.onload=()=>window.fengari?resolve(window.fengari):reject(new Error('Lua runtime did not initialize'));s.onerror=()=>reject(new Error('Could not load Lua runtime. Check internet and try again.'));document.head.appendChild(s)});return fengariPromise}
+document.getElementById('runBtn').onclick=async()=>{output.textContent='Loading Lua runtime…';output.classList.remove('error');try{const f=await loadLua();const lines=[];const oldLog=console.log;let luaCode=source.value; // Fengari browser API uses luaL_dostring for standard Lua.
+const lua=f.lua, lauxlib=f.lauxlib, lualib=f.lualib, to_luastring=f.to_luastring, to_jsstring=f.to_jsstring;
+const L=lauxlib.luaL_newstate();lualib.luaL_openlibs(L);
+const printFn=(state)=>{const n=lua.lua_gettop(state);const vals=[];for(let i=1;i<=n;i++){let s=lauxlib.luaL_tolstring(state,i,null);vals.push(to_jsstring(s));lua.lua_pop(state,1)}lines.push(vals.join('\t'));return 0};lua.lua_pushjsfunction(L,printFn);lua.lua_setglobal(L,to_luastring('print'));
+const status=lauxlib.luaL_dostring(L,to_luastring(luaCode));if(status!==lua.LUA_OK){const err=to_jsstring(lua.lua_tostring(L,-1));lines.push('ERROR: '+err)}lua.lua_close(L);output.textContent=lines.length?lines.join('\n'):'Finished with no output.';output.classList.toggle('error',lines.some(x=>x.startsWith('ERROR:')))}catch(e){output.textContent='Could not run: '+e.message;output.classList.add('error')}};
+async function copyBox(id){try{await navigator.clipboard.writeText(document.getElementById(id).value);alert('Copied starter code!')}catch(e){const el=document.getElementById(id);el.focus();el.select();alert('Code selected. Tap Copy from the iPad menu.')}}
+document.getElementById('copyClient').onclick=()=>copyBox('clientCode');document.getElementById('copyServer').onclick=()=>copyBox('serverCode');
+</script></body></html>
